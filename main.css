@@ -1,0 +1,41 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+
+	box-sizing: border-box;
+}
+
+html {
+	font: 1.5em/1.5 --system-ui, Helvetica, Arial, sans-serif;
+	background-color: #111;
+	color: #fff;
+}
+
+body {
+}
+
+#grid {
+	display: grid;
+	width: 100vmin;
+	height: 100vmin;
+	margin: 0 auto;
+	grid-template-rows: repeat(8, 1fr);
+	grid-template-columns: repeat(8, 1fr);
+	grid-row-gap: 3px;
+	grid-column-gap: 3px;
+}
+
+#grid li {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	list-style: none;
+	font-size: 3.2em;
+	text-align: center;
+	cursor: pointer;
+}
+
+#grid li.hidden {
+	background-color: #fff;
+}
