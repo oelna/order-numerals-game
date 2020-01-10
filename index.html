@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Schimpansentest</title>
+
+	<link rel="stylesheet" href="main.css" />
+</head>
+<body>
+	<ul id="grid">
+		<li v-for="(item, key) in items" v-on:click="toggle" v-bind:data-item="key + 1" v-bind:data-x="JSON.parse(items[key])[0]" v-bind:data-y="JSON.parse(items[key])[1]" v-bind:style="{ gridRow: JSON.parse(items[key])[0], gridColumn: JSON.parse(items[key])[1] }">
+			{{ key + 1}}
+		</li>
+	</ul>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="script.js"></script>
+</body>
+</html>
