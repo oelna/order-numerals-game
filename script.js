@@ -8,66 +8,46 @@ document.addEventListener('DOMContentLoaded', function () {
 	let timeout;
 	let timeoutDuration = 4;
 
-	let rasterSize = 8;
-	let amount = 9;
+	let rasterSize = 8; /* watch out! dependencies in CSS! */
+	let amount = 4;
 
-	let positions = [];
-	let nextNumber = 1;
-
-	let reset = function () {
-		positions = [];
-		nextNumber = 1;
-
-		// generate new positions
-		for (let i = 0; i < amount; i++) {
-
-			let position = JSON.stringify([rand(0,rasterSize),rand(0,rasterSize)]);
-
-			while (positions.indexOf(position) > -1) {
-				position = JSON.stringify([rand(0,rasterSize),rand(0,rasterSize)]);
-				// console.log('needed to generate new position');
-			}
-
-			positions.push(position);
-		}
-
-		// show all numbers
-		document.querySelectorAll('#grid li').forEach(function (e, i) {
-			e.classList.remove('hidden');
-		});
-	}
-
-	reset();
+	let nextNumber;
 
 	grid = new Vue({
 		'el': '#grid',
 		'data': {
 			'level': 0,
-			'items': positions
+			'nextNumber': 1,
+			'items': []
 		},
+		'created': function () {},
 		'methods': {
 			'toggle': function (event) {
-				let item = event.target.getAttribute('data-item');
+				let target = event.target;
+				if (target.getAttribute('data-item') == null) target = event.target.parentNode;
+				let item = parseInt(target.getAttribute('data-item'));
+				
+				if (this.nextNumber == 1 && item != 1) {
+					console.log('please start at 1');
+					return;
+				}
 
-				if (item == '1') {
+				if (item == 1) {
 					document.querySelectorAll('#grid li').forEach(function (e, i) {
-						if (e.textContent != '1') {
-							e.classList.add('hidden');
-						}
+						e.classList.add('hidden');
 					});
 				}
 
-				if (nextNumber == item) {
-					event.target.classList.toggle('hidden');
+				if (this.nextNumber == item) {
+					target.classList.toggle('hidden');
 
-					if (item == amount) {
+					if (item == amount+this.level) {
 						console.warn('gewonnen!');
+						if (this.level < 5) this.level += 1;
 						reset();
-						this.items = positions;
-						this.level += 1;
+					} else {
+						this.nextNumber += 1;
 					}
-
-					nextNumber += 1;
 				} else {
 					// show all items briefly
 					document.querySelectorAll('#grid li').forEach(function (e, i) {
@@ -78,10 +58,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
 					timeout = setTimeout(function (ref) {
 						reset();
-						ref.items = positions;
 					}, timeoutDuration*1000, this);
 				}
 			}
 		}
 	});
+
+	let reset = function () {
+		grid.items = [];
+		grid.nextNumber = 1;
+
+		// generate new positions
+		for (let i = 0; i < (amount+grid.level); i++) {
+
+			let position = JSON.stringify([rand(0,rasterSize+1),rand(0,rasterSize+1)]);
+
+			while (grid.items.indexOf(position) > -1) {
+				position = JSON.stringify([rand(0,rasterSize+1),rand(0,rasterSize+1)]);
+				console.log('needed to generate new position');
+			}
+
+			grid.items.push(position);
+		}
+
+		// show all numbers
+		document.querySelectorAll('#grid li').forEach(function (e, i) {
+			e.classList.remove('hidden');
+		});
+	}
+
+	reset();
 });

@@ -12,30 +12,34 @@ html {
 	color: #fff;
 }
 
-body {
-}
-
 #grid {
 	display: grid;
-	width: 100vmin;
-	height: 100vmin;
-	margin: 0 auto;
-	grid-template-rows: repeat(8, 1fr);
-	grid-template-columns: repeat(8, 1fr);
+	width: 80vmin;
+	height: 80vmin;
+	margin: 5vmin auto 0;
+	grid-template-rows: repeat(7, calc((80vmin / 8) - 3px)) calc(80vmin / 8);
+	grid-template-columns: repeat(7, calc((80vmin / 8) - 3px)) calc(80vmin / 8);
 	grid-row-gap: 3px;
 	grid-column-gap: 3px;
 }
 
 #grid li {
-	display: inline-block;
-	width: 100%;
-	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
 	list-style: none;
-	font-size: 3.2em;
+	font-size: 8vmin;
 	text-align: center;
 	cursor: pointer;
 }
 
 #grid li.hidden {
 	background-color: #fff;
+}
+
+#grid li span {
+	display: block;
+	width: 100%;
+	height: 100%;
 }
