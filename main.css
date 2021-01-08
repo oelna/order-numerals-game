@@ -36,6 +36,9 @@ html {
 
 #grid li.hidden {
 	background-color: #fff;
+	overflow: hidden;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 #grid li span {
