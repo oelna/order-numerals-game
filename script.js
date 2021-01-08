@@ -4,17 +4,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		return Math.floor(Math.random() * Math.floor(max));
 	}
 
-	const hideItems = function () {
-		timeout = setTimeout(function () {
-			document.querySelectorAll('#grid li').forEach(function (e, i) {
-				e.classList.add('hidden');
-			});
-		}, timeoutDuration*1000);
-	}
-
 	let grid;
 	let timeout;
-	let timeoutDuration = 2;
+	let timeoutDuration = 4;
 
 	let rasterSize = 8;
 	let amount = 9;
@@ -57,6 +49,14 @@ document.addEventListener('DOMContentLoaded', function () {
 			'toggle': function (event) {
 				let item = event.target.getAttribute('data-item');
 
+				if (item == '1') {
+					document.querySelectorAll('#grid li').forEach(function (e, i) {
+						if (e.textContent != '1') {
+							e.classList.add('hidden');
+						}
+					});
+				}
+
 				if (nextNumber == item) {
 					event.target.classList.toggle('hidden');
 
@@ -65,19 +65,23 @@ document.addEventListener('DOMContentLoaded', function () {
 						reset();
 						this.items = positions;
 						this.level += 1;
-						hideItems();
 					}
 
 					nextNumber += 1;
 				} else {
-					reset();
-					this.items = positions;
+					// show all items briefly
+					document.querySelectorAll('#grid li').forEach(function (e, i) {
+						e.classList.remove('hidden');
+					});
+
 					console.warn('verloren!');
-					hideItems();
+
+					timeout = setTimeout(function (ref) {
+						reset();
+						ref.items = positions;
+					}, timeoutDuration*1000, this);
 				}
 			}
 		}
 	});
-
-	hideItems();
 });
