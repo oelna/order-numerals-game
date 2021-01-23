@@ -12,6 +12,10 @@ html {
 	color: #fff;
 }
 
+html, body {
+	position: fixed;
+}
+
 #grid {
 	display: grid;
 	width: 80vmin;
